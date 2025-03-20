@@ -1,26 +1,39 @@
 import flet as ft
 
-
 def main(page: ft.Page):
-    counter = ft.Text("0", size=50, data=0)
+    page.title = "Simple Text Editor"
+    page.padding = 20
 
-    def increment_click(e):
-        counter.data += 1
-        counter.value = str(counter.data)
-        counter.update()
+    def save_text(e):
+        page.client_storage.set("note", text_field.value)
 
-    page.floating_action_button = ft.FloatingActionButton(
-        icon=ft.Icons.ADD, on_click=increment_click
+    def load_text():
+        try:
+            text=page.client_storage.get("note")
+            return text
+        except:
+            return ""
+
+    def clear_text(e):
+        page.client_storage.clear()
+        text_field.value = ""
+        page.update()
+
+    text_field = ft.TextField(
+        label="Enter your text here",
+        value=load_text(),
+        multiline=True,
+        border=ft.InputBorder.NONE,
+        expand=True
     )
-    page.add(
-        ft.SafeArea(
-            ft.Container(
-                counter,
-                alignment=ft.alignment.center,
-            ),
-            expand=True,
-        )
-    )
 
+    pb = ft.PopupMenuButton(
+        items=[
+            ft.PopupMenuItem(icon=ft.Icons.SAVE,text="Save",on_click=save_text),
+            ft.PopupMenuItem(icon=ft.Icons.CLEAR,text="Clear", on_click=clear_text),
+        ])
 
-ft.app(main)
+    page.add(text_field,pb)
+
+ft.app(target=main)
+
