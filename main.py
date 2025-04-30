@@ -126,9 +126,9 @@ def main(page: ft.Page):
         create_note_tab(index)
     
 
-    add_button = ft.ElevatedButton("Quick Note", on_click=add_tab)
+    add_button = ft.Row([ft.ElevatedButton(icon=ft.Icons.ADD,text="Quick Note", on_click=add_tab)],alignment=ft.MainAxisAlignment.CENTER)
 
-    page.add(ft.Column([add_button, tabs], expand = True))
+    page.add(ft.Container(expand=True,padding=ft.padding.only(0,20,0,10),content = ft.Column([add_button, tabs], expand = True)))
     load_saved_notes()
 
 ft.app(target=main)
