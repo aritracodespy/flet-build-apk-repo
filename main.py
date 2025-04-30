@@ -2,7 +2,7 @@ import flet as ft
 import json
 
 def main(page: ft.Page):
-    page.title = "Quick Notes"
+    page.title = "NotesFL"
     #page.scroll = "adaptive"
 
     tabs = ft.Tabs(tabs=[], expand=1)
@@ -26,9 +26,6 @@ def main(page: ft.Page):
 
     def create_note_tab(index, initial_text=""):
         text_field = ft.TextField(value=initial_text,hint_text="Enter your note...", multiline=True, expand=True, border_width=0)
-        
-        
-
 
         def save_note(e):
             key = f"note_{index}"
@@ -37,8 +34,7 @@ def main(page: ft.Page):
             if key not in keys:
                 keys.append(key)
                 save_note_keys(keys)
-            page.snack_bar = ft.SnackBar(ft.Text("Note saved!"))
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text(f"Note {index + 1} Saved! ")))
             page.update()
 
         def clear_note(e):
@@ -63,9 +59,6 @@ def main(page: ft.Page):
                     save_note_keys(keys)
                 page.update()
 
-
-
-
         dlg_clear = ft.AlertDialog(
             modal=True,
             title=ft.Text("Please confirm"),
@@ -75,7 +68,6 @@ def main(page: ft.Page):
                 ft.TextButton("No", on_click=lambda e: page.close(dlg_clear)),
             ],
             actions_alignment=ft.MainAxisAlignment.END,
-            
         )
 
         dlg_delete = ft.AlertDialog(
@@ -87,7 +79,6 @@ def main(page: ft.Page):
                 ft.TextButton("No", on_click=lambda e: page.close(dlg_delete)),
             ],
             actions_alignment=ft.MainAxisAlignment.END,
-            
         )
         tab_content = ft.Column(
             [
@@ -124,11 +115,16 @@ def main(page: ft.Page):
             index += 1
 
         create_note_tab(index)
-    
 
-    add_button = ft.Row([ft.ElevatedButton(icon=ft.Icons.ADD,text="Quick Note", on_click=add_tab)],alignment=ft.MainAxisAlignment.CENTER)
 
-    page.add(ft.Container(expand=True,padding=ft.padding.only(0,20,0,10),content = ft.Column([add_button, tabs], expand = True)))
+    top_row = ft.Row([
+                     ft.Text(value="NotesFL",size=20,color=ft.Colors.YELLOW,weight=ft.FontWeight.BOLD),
+                     ft.ElevatedButton(icon=ft.Icons.ADD,
+                                       text="Add Note",
+                                       on_click=add_tab,
+                     )],alignment=ft.MainAxisAlignment.SPACE_AROUND)
+
+    page.add(ft.Container(expand=True,padding=ft.padding.only(0,20,0,10),content = ft.Column([top_row, tabs], expand = True)))
     load_saved_notes()
 
 ft.app(target=main)
