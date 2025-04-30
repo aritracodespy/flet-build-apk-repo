@@ -3,7 +3,7 @@ name = "Notes"
 version = "0.1.0"
 description = "A Flet Stock Price Fetcher App"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.9"
 authors = [{ name = "aritracodespy", email = "you@example.com" }]
 
 dependencies = [
