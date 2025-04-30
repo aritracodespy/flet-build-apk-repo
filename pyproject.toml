@@ -1,7 +1,7 @@
 [project]
-name = "StocksYF"
+name = "NotesFL"
 version = "0.1.0"
-description = "app that shows stock prices"
+description = "Take notes"
 readme = "README.md"
 requires-python = ">=3.9"
 authors = [
